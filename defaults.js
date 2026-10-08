@@ -1,0 +1,54 @@
+const defaults = {};
+
+defaults.profile = {
+  'period': '00:10:00',
+  'variation': 0,
+  'current': false,
+  'nofocus': false,
+  'cache': false,
+  'form': false,
+  'offline': false,
+  'discarded': false,
+  'nodiscard': false,
+  'randomize': false,
+  'skip-auto-add': false,
+  'scroll-to-end': false,
+  'visual-countdown': false,
+  'switch': false,
+  'sound': false,
+  'sound-value': 1,
+  'blocked-words': '',
+  'allowed-period': 'Wed 22:00 - Wed 23:59, Thu 00:00 - Thu 07:10, Thu 22:00 - Thu 23:59, Fri 00:00 - Fri 07:10, Fri 14:30 - Fri 23:00, Sat 05:30 - Sat 15:10, Sun 05:30 - Sun 15:10',
+  'code': false,
+  'code-value': '',
+  'pre-code': false,
+  'pre-code-value': ''
+};
+
+defaults.presets = [
+  {hh: 0, mm: 0, ss: 30},
+  {hh: 0, mm: 5, ss: 0},
+  {hh: 0, mm: 15, ss: 0},
+  {hh: 0, mm: 30, ss: 0},
+  {hh: 1, mm: 0, ss: 0},
+  {hh: 5, mm: 0, ss: 0}
+];
+
+// how many profiles to keep
+defaults['max-number-of-profiles'] = 50;
+
+defaults['schedule-offset'] = 0;
+
+defaults['badge-color'] = '#5e5e5e';
+
+defaults['removed.jobs'] = 5 * 24 * 60 * 60 * 1000; // ms
+
+// Bozzuto auto-reload configuration
+defaults['auto-reload-urls'] = [
+  {
+    pattern: '*://bozzuto.venn.city/*',
+    'max-active-tabs': 1,
+    period: defaults.profile.period,
+    'allowed-period': defaults.profile['allowed-period']
+  }
+];
