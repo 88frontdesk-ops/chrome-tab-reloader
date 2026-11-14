@@ -12,11 +12,80 @@ const config = {
   'policy': {},
   'presets': defaults.presets,
   'default-profile': defaults.profile,
+  'auto-reload-urls': defaults['auto-reload-urls'],
   'disabled-menu-items': [],
   'startup-restore-delay': 5000
 };
 
+let autoReloadConfigs = defaults['auto-reload-urls'].map(o => Object.assign({}, o));
+
+const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const scheduleContainer = document.getElementById('auto-reload-schedule');
+
+const addScheduleRange = (startDay = 'Mon', startTime = '09:00', endDay = 'Mon', endTime = '17:00') => {
+  const row = document.createElement('div');
+  row.className = 'schedule-row';
+
+  const createDaySelect = (selectedDay, label) => {
+    const select = document.createElement('select');
+    select.setAttribute('aria-label', label);
+    for (const day of days) {
+      const option = document.createElement('option');
+      option.value = day;
+      option.textContent = day;
+      select.append(option);
+    }
+    select.value = selectedDay;
+    return select;
+  };
+  const createTimeInput = (time, label) => {
+    const input = document.createElement('input');
+    input.type = 'time';
+    input.value = time;
+    input.required = true;
+    input.setAttribute('aria-label', label);
+    return input;
+  };
+
+  const startDayInput = createDaySelect(startDay, chrome.i18n.getMessage('options_schedule_start_day'));
+  const startTimeInput = createTimeInput(startTime, chrome.i18n.getMessage('options_schedule_start_time'));
+  const endDayInput = createDaySelect(endDay, chrome.i18n.getMessage('options_schedule_end_day'));
+  const endTimeInput = createTimeInput(endTime, chrome.i18n.getMessage('options_schedule_end_time'));
+  const remove = document.createElement('button');
+  remove.type = 'button';
+  remove.textContent = chrome.i18n.getMessage('options_schedule_remove');
+  remove.addEventListener('click', () => {
+    row.remove();
+    updateRemoveButtons();
+  });
+  row.append(startDayInput, startTimeInput, endDayInput, endTimeInput, remove);
+  scheduleContainer.append(row);
+  updateRemoveButtons();
+};
+
+const updateRemoveButtons = () => {
+  const rows = [...scheduleContainer.querySelectorAll('.schedule-row')];
+  for (const row of rows) {
+    row.querySelector('button').disabled = rows.length === 1;
+  }
+};
+
+const parseSchedule = value => {
+  if (!value) {
+    return [];
+  }
+  return value.split(/\s*,\s*/).filter(Boolean).map(range => {
+    const match = range.match(/^(Sun|Mon|Tue|Wed|Thu|Fri|Sat)\s+(\d{2}:\d{2})\s*-\s*(Sun|Mon|Tue|Wed|Thu|Fri|Sat)\s+(\d{2}:\d{2})$/i);
+    if (!match) {
+      throw new Error('Invalid auto-reload schedule range: ' + range);
+    }
+    const normalizeDay = day => day[0].toUpperCase() + day.slice(1).toLowerCase();
+    return [normalizeDay(match[1]), match[2], normalizeDay(match[3]), match[4]];
+  });
+};
+
 const restore = () => chrome.storage.local.get(config, prefs => {
+  autoReloadConfigs = prefs['auto-reload-urls'];
   document.getElementById('badge').checked = prefs.badge;
   document.getElementById('color').value = prefs.color;
   document.getElementById('faqs').checked = prefs.faqs;
@@ -37,6 +106,22 @@ const restore = () => chrome.storage.local.get(config, prefs => {
   document.getElementById('pp-randomize').checked = prefs['default-profile'].randomize;
   document.getElementById('pp-scroll-to-end').checked = prefs['default-profile']['scroll-to-end'];
   document.getElementById('pp-visual-countdown').checked = prefs['default-profile']['visual-countdown'];
+  scheduleContainer.replaceChildren();
+  const autoReloadConfig = autoReloadConfigs.find(o => o.pattern === '*://bozzuto.venn.city/*') ||
+    defaults['auto-reload-urls'][0];
+  try {
+    const ranges = parseSchedule(autoReloadConfig['allowed-period']);
+    if (ranges.length === 0) {
+      throw new Error('At least one auto-reload schedule range is required.');
+    }
+    for (const range of ranges) {
+      addScheduleRange(...range);
+    }
+  }
+  catch (e) {
+    document.getElementById('info').textContent = e.message;
+    addScheduleRange();
+  }
   document.getElementById('reload.all').checked = prefs['disabled-menu-items'].includes('reload.all');
   document.getElementById('reload.all.discarded').checked =
     prefs['disabled-menu-items'].includes('reload.all.discarded');
@@ -103,6 +188,28 @@ document.getElementById('save').addEventListener('click', () => {
     delay = 5;
   }
 
+  const rows = [...scheduleContainer.querySelectorAll('.schedule-row')];
+  const scheduleRanges = [];
+  for (const row of rows) {
+    const [startDay, startTime, endDay, endTime] = [...row.querySelectorAll('select, input')].map(input => input.value);
+    if (!startTime || !endTime) {
+      info.textContent = 'Select a start and end time for every schedule range.';
+      return;
+    }
+    scheduleRanges.push(`${startDay} ${startTime} - ${endDay} ${endTime}`);
+  }
+  if (scheduleRanges.length === 0) {
+    info.textContent = 'Add at least one auto-reload schedule range.';
+    return;
+  }
+  const updatedAutoReloadConfigs = autoReloadConfigs.map(o => Object.assign({}, o));
+  let autoReloadConfig = updatedAutoReloadConfigs.find(o => o.pattern === '*://bozzuto.venn.city/*');
+  if (!autoReloadConfig) {
+    autoReloadConfig = Object.assign({}, defaults['auto-reload-urls'][0]);
+    updatedAutoReloadConfigs.push(autoReloadConfig);
+  }
+  autoReloadConfig['allowed-period'] = scheduleRanges.join(', ');
+
   try {
     chrome.storage.local.set({
       badge,
@@ -114,10 +221,12 @@ document.getElementById('save').addEventListener('click', () => {
       'json': JSON.parse(document.getElementById('json').value.trim() || '[]'),
       'dynamic.json': document.getElementById('dynamic.json').checked,
       'policy': JSON.parse(document.getElementById('policy').value.trim() || '{}'),
+      'auto-reload-urls': updatedAutoReloadConfigs,
       'disabled-menu-items': [...document.querySelectorAll('#disabled_items input:checked')].map(e => e.id),
       'startup-restore-delay': delay * 1000
     }, () => {
       info.textContent = chrome.i18n.getMessage('options_saved');
+      autoReloadConfigs = updatedAutoReloadConfigs;
       restore();
 
       if (badge) {
@@ -137,6 +246,7 @@ document.getElementById('save').addEventListener('click', () => {
   }
   window.setTimeout(() => info.textContent = '', 3000);
 });
+document.getElementById('add-schedule-range').addEventListener('click', () => addScheduleRange());
 // reset
 document.getElementById('reset').addEventListener('click', () => chrome.storage.local.set(config, restore));
 // support

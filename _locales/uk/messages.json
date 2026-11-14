@@ -77,6 +77,30 @@
    "options_defaults": {
       "message": "Типові"
    },
+   "options_auto_reload_schedule": {
+      "message": "Розклад автоматичного перезавантаження"
+   },
+   "options_auto_reload_schedule_desc": {
+      "message": "Вкажіть дні тижня та часові проміжки, коли цю вкладку можна перезавантажувати. Інтервал перезавантаження не зміниться."
+   },
+   "options_schedule_start_day": {
+      "message": "День початку"
+   },
+   "options_schedule_start_time": {
+      "message": "Час початку"
+   },
+   "options_schedule_end_day": {
+      "message": "День завершення"
+   },
+   "options_schedule_end_time": {
+      "message": "Час завершення"
+   },
+   "options_schedule_add": {
+      "message": "Додати часовий проміжок"
+   },
+   "options_schedule_remove": {
+      "message": "Видалити"
+   },
    "options_desc": {
       "message": "Перемкнути опис"
    },

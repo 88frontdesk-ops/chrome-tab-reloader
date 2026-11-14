@@ -395,20 +395,24 @@ api.storage.changed(ps => ps.color && api.button.color(ps.color.newValue));
 
 console.log('[Auto-Reload] SCRIPT LOADING - AUTO RELOAD SECTION STARTING');
 
-const AUTO_RELOAD_CONFIG = defaults['auto-reload-urls'] || [];
-
-console.log('[Auto-Reload] CONFIG LOADED:', AUTO_RELOAD_CONFIG);
-
 /**
  * Manages auto-reload for URLs with single active tab constraint
  * Keeps track of which tab is currently active for each URL pattern
  */
 async function manageAutoReloadTabs() {
   console.log('[Auto-Reload] manageAutoReloadTabs called at:', new Date().toLocaleTimeString());
-  console.log('[Auto-Reload] CONFIG:', AUTO_RELOAD_CONFIG);
   
   try {
-    for (const config of AUTO_RELOAD_CONFIG) {
+    const prefs = await api.storage.get({
+      'auto-reload-urls': defaults['auto-reload-urls']
+    });
+    const autoReloadConfigs = prefs['auto-reload-urls'];
+    if (!Array.isArray(autoReloadConfigs)) {
+      throw new TypeError('auto-reload-urls must be an array');
+    }
+    console.log('[Auto-Reload] CONFIG:', autoReloadConfigs);
+
+    for (const config of autoReloadConfigs) {
       const pattern = config.pattern;
       const period = config.period || '00:01:00';
       const maxActiveTabs = config['max-active-tabs'] || 1;
@@ -599,4 +603,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 chrome.tabs.onCreated.addListener((tab) => {
   console.log('[Auto-Reload] Tab created:', tab.id, tab.url);
   setTimeout(() => manageAutoReloadTabs(), 500);
+});
+
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === 'local' && changes['auto-reload-urls']) {
+    setTimeout(() => manageAutoReloadTabs(), 0);
+  }
 });

@@ -77,6 +77,30 @@
    "options_defaults": {
       "message": "Значения по умолчанию"
    },
+   "options_auto_reload_schedule": {
+      "message": "Расписание автоперезагрузки"
+   },
+   "options_auto_reload_schedule_desc": {
+      "message": "Укажите дни недели и временные интервалы, когда эта вкладка может перезагружаться. Интервал перезагрузки останется без изменений."
+   },
+   "options_schedule_start_day": {
+      "message": "День начала"
+   },
+   "options_schedule_start_time": {
+      "message": "Время начала"
+   },
+   "options_schedule_end_day": {
+      "message": "День окончания"
+   },
+   "options_schedule_end_time": {
+      "message": "Время окончания"
+   },
+   "options_schedule_add": {
+      "message": "Добавить интервал"
+   },
+   "options_schedule_remove": {
+      "message": "Удалить"
+   },
    "options_desc": {
       "message": "Переключить описание"
    },

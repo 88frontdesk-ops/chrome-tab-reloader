@@ -116,6 +116,30 @@
    "options_defaults": {
       "message": "默认设置"
    },
+   "options_auto_reload_schedule": {
+      "message": "自动重新加载计划"
+   },
+   "options_auto_reload_schedule_desc": {
+      "message": "设置此标签页允许重新加载的每周日期和时间范围。重新加载间隔保持不变。"
+   },
+   "options_schedule_start_day": {
+      "message": "开始日期"
+   },
+   "options_schedule_start_time": {
+      "message": "开始时间"
+   },
+   "options_schedule_end_day": {
+      "message": "结束日期"
+   },
+   "options_schedule_end_time": {
+      "message": "结束时间"
+   },
+   "options_schedule_add": {
+      "message": "添加时间范围"
+   },
+   "options_schedule_remove": {
+      "message": "删除"
+   },
    "options_desc": {
       "message": "切换描述"
    },
