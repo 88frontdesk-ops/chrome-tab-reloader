@@ -1,15 +1,3 @@
-/*
- * Behave.js
- *
- * Copyright 2013, Jacob Kelley - http://jakiestfu.com/
- * Released under the MIT Licence
- * http://opensource.org/licenses/MIT
- *
- * Github:  http://github.com/jakiestfu/Behave.js/
- * Version: 1.5
- */
-
-
 (function(undefined){
 
     'use strict';

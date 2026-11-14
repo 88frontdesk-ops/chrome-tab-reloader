@@ -116,6 +116,30 @@
    "options_defaults": {
       "message": "Defaults"
    },
+   "options_auto_reload_schedule": {
+      "message": "Auto-reload schedule"
+   },
+   "options_auto_reload_schedule_desc": {
+      "message": "Set the weekly days and time ranges when this tab may reload. The reload interval stays unchanged."
+   },
+   "options_schedule_start_day": {
+      "message": "Start day"
+   },
+   "options_schedule_start_time": {
+      "message": "Start time"
+   },
+   "options_schedule_end_day": {
+      "message": "End day"
+   },
+   "options_schedule_end_time": {
+      "message": "End time"
+   },
+   "options_schedule_add": {
+      "message": "Add time range"
+   },
+   "options_schedule_remove": {
+      "message": "Remove"
+   },
    "options_desc": {
       "message": "Toggle Description"
    },

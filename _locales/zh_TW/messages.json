@@ -116,6 +116,30 @@
    "options_defaults": {
       "message": "預設值"
    },
+   "options_auto_reload_schedule": {
+      "message": "自動重新載入排程"
+   },
+   "options_auto_reload_schedule_desc": {
+      "message": "設定此分頁允許重新載入的每週日期與時間範圍。重新載入間隔維持不變。"
+   },
+   "options_schedule_start_day": {
+      "message": "開始日期"
+   },
+   "options_schedule_start_time": {
+      "message": "開始時間"
+   },
+   "options_schedule_end_day": {
+      "message": "結束日期"
+   },
+   "options_schedule_end_time": {
+      "message": "結束時間"
+   },
+   "options_schedule_add": {
+      "message": "新增時間範圍"
+   },
+   "options_schedule_remove": {
+      "message": "移除"
+   },
    "options_desc": {
       "message": "切換說明"
    },

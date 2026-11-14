@@ -18,7 +18,7 @@ defaults.profile = {
   'sound': false,
   'sound-value': 1,
   'blocked-words': '',
-  'allowed-period': 'Wed 22:00 - Wed 23:59, Thu 00:00 - Thu 07:10, Thu 22:00 - Thu 23:59, Fri 00:00 - Fri 07:10, Fri 14:30 - Fri 23:00, Sat 05:30 - Sat 15:10, Sun 05:30 - Sun 15:10',
+  'allowed-period': 'Wed 22:30 - Wed 23:59, Thu 00:00 - Thu 07:10, Thu 22:30 - Thu 23:59, Fri 00:00 - Fri 07:10, Fri 14:30 - Fri 23:10, Sat 06:00 - Sat 15:10, Sun 06:00 - Sun 15:10',
   'code': false,
   'code-value': '',
   'pre-code': false,

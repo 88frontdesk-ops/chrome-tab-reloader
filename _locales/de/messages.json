@@ -116,6 +116,30 @@
    "options_defaults": {
       "message": "Standardwerte"
    },
+   "options_auto_reload_schedule": {
+      "message": "Zeitplan für automatisches Neuladen"
+   },
+   "options_auto_reload_schedule_desc": {
+      "message": "Legen Sie Wochentage und Zeitbereiche fest, in denen dieser Tab neu geladen werden darf. Das Neuladeintervall bleibt unverändert."
+   },
+   "options_schedule_start_day": {
+      "message": "Starttag"
+   },
+   "options_schedule_start_time": {
+      "message": "Startzeit"
+   },
+   "options_schedule_end_day": {
+      "message": "Endtag"
+   },
+   "options_schedule_end_time": {
+      "message": "Endzeit"
+   },
+   "options_schedule_add": {
+      "message": "Zeitbereich hinzufügen"
+   },
+   "options_schedule_remove": {
+      "message": "Entfernen"
+   },
    "options_desc": {
       "message": "Beschreibung einblenden"
    },

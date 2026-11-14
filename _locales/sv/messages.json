@@ -116,6 +116,30 @@
    "options_defaults": {
       "message": "Standardvärden"
    },
+   "options_auto_reload_schedule": {
+      "message": "Schema för automatisk omladdning"
+   },
+   "options_auto_reload_schedule_desc": {
+      "message": "Ange veckodagar och tidsintervall då den här fliken får laddas om. Omladdningsintervallet ändras inte."
+   },
+   "options_schedule_start_day": {
+      "message": "Startdag"
+   },
+   "options_schedule_start_time": {
+      "message": "Starttid"
+   },
+   "options_schedule_end_day": {
+      "message": "Slutdag"
+   },
+   "options_schedule_end_time": {
+      "message": "Sluttid"
+   },
+   "options_schedule_add": {
+      "message": "Lägg till tidsintervall"
+   },
+   "options_schedule_remove": {
+      "message": "Ta bort"
+   },
    "options_desc": {
       "message": "visa/dölj beskrivning"
    },
