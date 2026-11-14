@@ -208,6 +208,7 @@ document.getElementById('save').addEventListener('click', () => {
     autoReloadConfig = Object.assign({}, defaults['auto-reload-urls'][0]);
     updatedAutoReloadConfigs.push(autoReloadConfig);
   }
+  autoReloadConfig.period = profile.period;
   autoReloadConfig['allowed-period'] = scheduleRanges.join(', ');
 
   try {
